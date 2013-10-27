@@ -1,0 +1,246 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% my-textbook.sty %% 'Software Design and Development' by jashank@ %%
+%%  Copyright (c) 2012, 2013 Jashank Jeremy <jashank@rulingia.com>  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This is a style file to simplify maintaining the main TeX document
+% and to make reworking the style a lot easier to do (because I expect
+% any publisher will attemt to impose their own style on my baby).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{my-textbook}[2013/06/29 SDD textbook styles]
+
+%%%
+%%% Configure title and author.
+%%%
+\def\mytitle{The Vala Guide}
+\def\myauthor{Varun Madiath and Jashank Jeremy}
+
+%%%
+%%% Pull in packages, in no particularly relevant order.
+%%%
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{float}
+\usepackage[T1]{fontenc}
+\usepackage{framed}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage[dcucite]{harvard}
+\usepackage{hyperref}
+\usepackage{hyphenat}
+\usepackage{ifluatex}
+\usepackage{ifxetex}
+\usepackage{minted}
+\usepackage{multicol}
+\usepackage{refstyle}
+\usepackage{shorttoc}
+\usepackage{titlesec}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{wrapfig}
+
+%%%
+%%% A range of very small tweaks.
+%%%
+
+%% Disable maketitle
+\def\maketitle{}
+
+%% Configure paragraph skip dimensions.
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+
+%%%
+%%% Environments, Commands and Macros
+%%%
+
+%% `noun' is a LyX-ism.
+\newcommand{\noun}[1]{\textsc{#1}}
+\newcommand{\code}[1]{{\tt #1}}
+\newcommand{\entry}[1]{{\bf\ttfamily #1}}
+\newcommand{\var}[1]{{\it\ttfamily #1}}
+\newcommand{\func}[1]{{\it\ttfamily #1}}
+\newcommand{\class}[1]{{\it\ttfamily #1}}
+
+\def\TakeMeX{{\usefont{OT1}{cmr}{m}{it} Take}{\usefont{OT1}{cmr}{m}{sc}MeX}}
+
+\def\ellipsis{...}
+
+%% TOC
+  \newcommand\shorttocname{Short Table of Contents}
+\renewcommand\contentsname{Table of Contents}
+\newcommand{\my@toc}{%
+  \pdfbookmark[1]{\shorttocname}{shorttoc}%
+  \shorttoc{\shorttocname}{0}%
+  \cleardoublepage{}%
+  \pdfbookmark[1]{\contentsname}{toc}%
+  \tableofcontents{}%
+}
+
+%%%
+%%% Page, Feature and Style Configuration
+%%%
+%% hyperref
+\hypersetup{unicode=true,
+  bookmarks=true,
+  bookmarksnumbered=false,
+  bookmarksopen=false,
+  breaklinks=false,
+  pdfborder={0.7 0.2 0},
+  backref=false,
+  colorlinks=true,
+  pdftitle={\mytitle},
+  pdfauthor={\myauthor}}
+
+%% geometry and crop
+\geometry{a4paper}
+
+%% Fancy headers
+\fancypagestyle{book}{%
+  \fancyhf{}%
+  \fancyfoot[C]{%
+    \rule[4pt]{1cm}{.1pt}%
+    \hspace{10pt}%
+    \thepage%
+    \hspace{10pt}%
+    \rule[4pt]{1cm}{.1pt}%
+}}
+\pagestyle{book}
+
+\urlstyle{same}
+
+%%%
+%%% Configure fontspec.
+%%%
+%
+% This is one of the most fiddly configuration steps in this style,
+% mainly because the behaviour changes from engine to engine as
+% fontspec (and a few other packages) are engine-dependent.
+%
+% First, we'll configure up the fonts as a whole by setting up some
+% defaults, then the main, sans-serif and monospace fonts (Garamond,
+% Helvetica and Menlo).  Then we define all the Helvetica Neue
+% variants for the header styling, and abstract them.
+%
+% After that, we test for engines --- LuaTeX first, then XeTeX --- and
+% special-case module loading for things like fontspec, microtype,
+% polyglossia before loading all the fontspec fonts.
+%
+\makeatletter
+\newcommand{\my@fontspec}{
+  \defaultfontfeatures{Ligatures=TeX}
+  \setmainfont[BoldFont={* Bold}, ItalicFont={* Italic}]{Adobe Garamond Pro}
+  \setsansfont[Scale=MatchLowercase]{Optima}
+  \setmonofont[Scale=MatchLowercase]{Monaco}
+}
+
+\ifluatex
+  \usepackage{fontspec}
+  \usepackage[protrusion=true,expansion]{microtype}
+  \my@fontspec
+\else
+  \ifxetex
+    \usepackage{fontspec}
+    \usepackage[protrusion=true]{microtype}
+    \usepackage{polyglossia}
+    \my@fontspec
+  \else
+    % I need to work out what to do with fonts here.
+  \fi
+\fi
+
+%% Equation numbering resets
+\numberwithin{equation}{section}
+
+%%%
+%%% Minted fresh.
+%%%
+% Commands for formatting code
+\renewcommand{\theFancyVerbLine}{
+  \bfseries\ttfamily\textcolor[RGB]{127,177,127}{\arabic{FancyVerbLine}}}
+\newcommand{\inlinecode}[1]{
+  {\bfseries\ttfamily\textcolor[RGB]{173,175,117}{#1}}}
+
+\definecolor{bg}{RGB}{32,32,32}
+\usemintedstyle{native}
+
+%%------------------------------------------------------------
+% Commands to make inputting formatted code easy\newminted{}
+\newcommand{\inputvalacodefile}[1]{\inputminted[bgcolor=bg,framesep=10pt,frame=lines,xleftmargin=10pt,rulecolor=\color{bg}]{vala}{#1}}
+\newcommand{\inputvalafilesection}[4]{\inputminted[bgcolor=bg,framesep=10pt,frame=lines,xleftmargin=10pt,rulecolor=\color{bg},firstline=#2,lastline=#3,gobble=#4]{vala}{#1}}
+\DefineVerbatimEnvironment{bashcommands}{Verbatim}{formatcom=\ttfamily\color[RGB]{22,22,22}}
+
+
+\makeatletter
+\def\my@titlepage{
+  \begin{titlepage}%
+    \begin{flushright}%
+      \vspace*{2.5in}%
+      {\Huge The Vala Guide}%
+      \vspace{1in}%
+      {\Large%
+        Varun Madiath\\ %
+        Jashank Jeremy}%
+      \vspace{1in}%
+      {\Large Version 0.2}%
+      {\small \today}%
+    \end{flushright}%
+  \end{titlepage}%
+}
+
+\def\my@copyrightpage{
+  \clearpage{}
+\thispagestyle{empty}
+
+\begingroup
+\footnotesize
+\parindent 0pt
+\parskip \baselineskip
+Copyright \textcopyright{} 2010 Varun Madiath.\\ 
+Copyright \textcopyright{} 2013 Jashank Jeremy.
+
+    The Current Maintainer of this work is Jashank Jeremy.\\
+    \texttt{jashank@rulingia.com}
+
+Permission is granted to copy, distribute, and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.1 or
+any later version published by the Free Software Foundation; with
+Invariant Sections being ``Preface'', with no Front-Cover Texts, and
+with no Back-Cover Texts.  A copy of the license is included in the
+appendix entitled ``GNU Free Documentation License.''
+
+The GNU Free Documentation License is available from \url{www.gnu.org}
+or by writing to the Free Software Foundation, Inc., 59 Temple Place,
+Suite 330, Boston, MA 02111-1307, USA.
+
+The original form of this book is \LaTeX\ source code.  Compiling this
+\LaTeX\ source has the effect of generating a device-independent
+representation of the book, which can be converted to other formats
+and printed.
+
+The \LaTeX\ source for this book is available from
+
+\hspace{0.25in}\url{http://github.com/Jashank/The-Vala-Guide}
+
+The paper used in this publication may meet the minimum 
+requirements of the American National Standard for 
+Information Sciences --- Permanence of Paper for Printed
+Library Materials, ANSI Z39.48--1984.
+
+\endgroup
+\clearpage
+}
+
+\endinput
+
+% Local variables:
+% mode:latex
+% mode:ruler
+% mode:auto-fill
+% fill-column:78
+% End:
