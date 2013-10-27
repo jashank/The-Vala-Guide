@@ -10,6 +10,7 @@ BIBLIO		= no
 INDEX		= no
 FONTSPEC	= yes
 SHELLESCAPE	= yes
+ENGINE		= xe
 
 COUNT		= no
 DIMENSIONS	= no
