@@ -1,0 +1,109 @@
+\chapter{Introducing Vala}
+
+Welcome to \emph{The Vala Guide}!  This is intended as an introduction to the
+Vala programming language, the ``next-generation'' language of the GNU/Linux
+desktop.  It's object-oriented and powerful, but runs with native speed, and
+is cross-platform.
+
+\section{Another Programming Language?}
+
+A lot of the application software that runs on *nix desktops is written in C,
+leveraging the \emph{GLib} library, a bundle of useful utilities that
+implement a range of powerful programming primitives (akin to those provided
+by APR or Boost).  Naturally, it has bindings into a range of other
+programming languages, but one of the most powerful features is called
+GObject: an object-oriented layer using pure C, allowing the manipulation of
+complex, abstract data structures.
+
+C, however, is hard.  Having to manipulate objects in a language that isn't
+really designed for it is not a pleasant experience, and most ports of
+GLib-based libraries (including Gtk+, a popular widget and toolkit library) to
+true object-oriented languages incur runtime overheads: most languages
+(including C++ and Objective-C) require some form of `name mangling' which
+must be handled by a language runtime with a performance penalty.  And the
+Java approach---completely decoupling the language from platform-dependent
+binaries, instead targeting a MIPS-like architecture which is interpreted by
+the Java virtual machine, a simulation of that architecture that translates
+into native machine code at runtime---incurs even greater performance
+penalties\footnote{Although, in many cases, Java applications will often run
+  nearly as fast as their native counterparts because of the huge optimisation
+  efforts that have gone into the development of the reference Java virtual
+  machine.}.
+
+Yet, all the groundwork existed for a language to be implemented atop the GLib
+and GObject framework, and the potential for such a language, featuring a
+truly object-oriented syntax, was great.  And thus, Vala, created by J\"u{}rg
+Billeter and Raffaele Sandrini in mid-2006, was born.  A programming language
+more familiar to developers with a grounding in C\# or Java, Vala provides a
+lot of features found in other high level programming languages in a manner
+that is familiar, concise and easy to use, without introducing a language
+runtime or virtual machine to slap on a performance penalty.  To achieve this,
+the Vala compiler does a surprising thing: it generates (surprisingly legible)
+C, which can be fed into any C compiler and linked against the GLib libraries
+(and any additional libraries that are required) to produce a native
+executable.
+
+\section{What Can Vala Do?}
+
+Vala gives you, the developer, a familiar, object-oriented syntax connected to
+a wide range of libraries out of the box.  It features mixins/interfaces,
+properties, signals, lambdas, pleasant \code{foreach} loops, type inference,
+generics, nullables, reference-counting memory management and exception
+handling.
+
+Vala does not introduce any feature that cannot be accomplished using C with
+GLib, but it makes using these features much simpler.  One of the most common
+criticisms of GLib is that it is exceptionally verbose, and requires lots of
+boilerplate code, which, since you're using Vala, you don't have to worry
+about: the Vala compiler writes it for you.
+
+And it's not a pain to use other libraries, either: any library that your C
+compiler can link against, no matter what language it's written in, Vala can
+work with, particularly if it uses GObject.  All that's required is a
+\code{vapi} file, which serves a similar purpose to a conventional C,
+Objective-C or C++ header, unlike other languages, where specially-created
+bindings and foreign-function interfaces are required.
+
+Programs written in C can also make use of libraries written in Vala without
+any additional effort whatsoever. The vala compiler will automatically
+generate the header files required, which C programmes need to use the
+library. It is also possible to write bindings for Vala from other languages
+like python and Mono.
+
+\section{Vala and Genie}
+
+If you don't like Vala's C\#-like syntax, the Vala compiler infrastructure
+also supports another language, called Genie, which serves a very similar
+purpose.  It has most, if not all, of the same features that Vala has, and
+uses the same mechanisms to achieve it's tasks, with one major difference: it
+looks a lot more like Python.
+
+Genie is (currently) beyond the scope of this guide, but the concepts in Vala
+are sufficiently similar that, if you're learning Genie, you will find this
+guide useful.
+
+More information about Vala is available at
+
+\hspace{0.25in}\url{http://live.gnome.org/Vala/}
+
+\section{In This Guide}
+
+XXX to be written
+
+\section{Conventions}
+
+XXX to be determined (o\_O)
+
+\section{Getting Vala and Friends}
+
+If you're on any modern *nix system, you're in luck.  All major GNU/Linuxen
+(including Ubuntu, Fedora, Debian, Gentoo and Beyond Linux From Scratch)
+support Vala development, as do FreeBSD, Darwin, Mac OS X and all OSes
+supported by \emph{pkgsrc}, amongst others.  Your preferred package manager
+should give you the Vala toolchain (and the necessary tools, including a C
+compiler, and the GLib libraries, if you don't already have them installed) if
+you install \code{vala}, which may be categorised into `languages' or similar.
+
+The GNOME website has full instructions for installing Vala if your
+distribution is, for some weird reason, not yet on the Vala bandwagon.  Let
+your distribution know that they're missing, out, too!

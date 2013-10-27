@@ -5,7 +5,7 @@
 #   All rights reserved.
 
 PROJECT		= valaguide
-ADDITIONAL	= valaguide.sty
+ADDITIONAL	= valaguide.sty chapter01.tex chapter02.tex appendixA.tex
 BIBLIO		= no
 INDEX		= no
 FONTSPEC	= yes
