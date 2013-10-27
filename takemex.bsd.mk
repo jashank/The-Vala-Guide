@@ -52,6 +52,9 @@
 #         What output format should we use (of 'pdf', 'dvi' and 'ps')?
 #         Default is 'pdf'.
 #
+#     SHELLESCAPE
+#         Enable `-shell-escape' support.
+#
 #     FONTSPEC
 #         Does this project require the the 'fontspec' package (or
 #         other LuaTeX- or XeTeX-specific extensions that won't run
@@ -117,6 +120,11 @@ LATEX		= pdflatex
 .  endif
 .else
 .  error "unrecognised engine '${ENGINE}' (known engines are: 'lua' 'xe' 'pdf')"
+.endif
+
+SHELLESCAPE ?= no
+.if ${SHELLESCAPE} == "yes"
+LATEX		+= -shell-escape
 .endif
 
 FONTSPEC ?= no
