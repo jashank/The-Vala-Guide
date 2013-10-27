@@ -1,10 +1,10 @@
 /*
  * helloworld.vala
  *
- * This is a simple Vala Program.
- * It prints the words Hello World to the screen.
+ * A simple Vala program that prints the string "Hello, World" to
+ * the screen.
  */
 void main(string[] args) {
-    // The following line prints the words 'Hello ,World'.
+    // Print a friendly greeting.
     stdout.printf("Hello, World\n");
 }
