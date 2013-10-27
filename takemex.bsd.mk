@@ -75,12 +75,14 @@
 #
 # RCS ID
 #
-#     $Id: takemex.bsd.mk,v 1.14 2013/07/13 07:26:31 jashank Exp $
+#     $Id: takemex.bsd.mk,v 1.15 2013/10/27 10:42:04 jashank Exp $
 #
 
 .if (${PROJECT} == "")
 .  error "PROJECT must be defined!"
 .endif
+
+_CLEANABLES	= ${PROJECT}.aux ${PROJECT}.log ${PROJECT}.out ${PROJECT}.toc
 
 #
 # Format chooser.
@@ -155,6 +157,8 @@ INDEX_CMD	= texindy ${PROJECT}
 .  else
 .    error "unrecognised index engine: ${INDEX_ENG} (known index engines are 'makeidx' 'xindy')"
 .  endif
+
+_CLEANABLES	+= ${PROJECT}.idx ${PROJECT}.ilg ${PROJECT}.ind
 .else
 INDEX_CMD	= true
 .endif
@@ -179,6 +183,8 @@ BIBLIO_CMD	= biber ${PROJECT}
 .  else
 .    error "unrecognised biblio engine: ${BIBLIO_ENG} (known biblio engines are 'bibtex' 'bibtex8' 'bibtexu' 'biblatex' 'biber')"
 .  endif
+
+_CLEANABLES	+= ${PROJECT}.bbl ${PROJECT}.blg
 .else
 BIBLIO_CMD	= true
 .endif
@@ -218,20 +224,12 @@ ${PROJECT}.ps:: ${PROJECT}.pdf
 	${PDFTOPS} ${PROJECT}.pdf ${PROJECT}.ps
 
 clean::
-	-rm -f my-textbook.aux
-	-rm -f my-textbook.bbl
-	-rm -f my-textbook.blg
-	-rm -f my-textbook.idx
-	-rm -f my-textbook.ilg
-	-rm -f my-textbook.ind
-	-rm -f my-textbook.log
-	-rm -f my-textbook.out
-	-rm -f my-textbook.toc
+	-rm -f ${_CLEANABLES}
 
 tidy::
-	-rm -f my-textbook.pdf
-	-rm -f my-textbook.dvi
-	-rm -f my-textbook.ps
+	-rm -f ${PROJECT}.pdf
+	-rm -f ${PROJECT}.dvi
+	-rm -f ${PROJECT}.ps
 
 debug::
 	@echo "ENGINE=${ENGINE} FORMAT=${FORMAT} FONTSPEC=${FONTSPEC} => LATEX=${LATEX}"
