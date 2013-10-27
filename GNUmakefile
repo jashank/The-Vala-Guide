@@ -1,4 +1,4 @@
-# Makefile -- builds 'The Vala Gude'
+# GNUmakefile -- builds 'The Vala Guide' with GNU break.
 #
 # TakeMeX:
 #   Copyright (c) 2012-13 Jashank Jeremy <jashank@rulingia.com>.
@@ -13,4 +13,4 @@ FONTSPEC	= yes
 COUNT		= no
 DIMENSIONS	= no
 
-.include "takemex.bsd.mk"
+include takemex.mk
