@@ -100,6 +100,39 @@
 %% geometry and crop
 \geometry{a4paper}
 
+%% Chapter headings
+\definecolor{gray75}{gray}{0.75}
+\definecolor{gray50}{gray}{0.50}
+\newcommand{\hsp}{\hspace{20pt}}
+
+% Part
+\titleformat{\part}[display]%
+            {\Huge\sffamily}%
+            {\textcolor{gray50}{part \thepart}}%
+            {0pt}%
+            {\Huge\sffamily\filright\MakeLowercase}
+
+% Chapter
+\titleformat{\chapter}[display]%
+            {\filright\sffamily}%
+            {\sffamily\Large\MakeUppercase{\@chapapp} \sffamily\Huge\thechapter}%
+            {1ex}%
+            {\filright\Huge\sffamily\MakeLowercase}
+
+% Section
+\titleformat{\section}[hang]%
+            {\filright\LARGE\sffamily}%
+            {\thesection\hsp\textcolor{gray75}{|}\hsp}%
+            {0pt}%
+            {\LARGE\sffamily\MakeLowercase}
+            
+% Subsection
+\titleformat{\subsection}[hang]%
+            {\filright\Large\sffamily}%
+            {\thesubsection\hsp\textcolor{gray75}{|}\hsp}%
+            {0pt}%
+            {\Large\sffamily\MakeLowercase}
+
 %% Fancy headers
 \fancypagestyle{book}{%
   \fancyhf{}%
@@ -181,14 +214,14 @@
   \begin{titlepage}%
     \begin{flushright}%
       \vspace*{2.5in}%
-      {\Huge The Vala Guide}%
+      {\Huge The Vala Guide}
       \vspace{1in}%
-      {\Large%
+      {\par\Large%
         Varun Madiath\\ %
         Jashank Jeremy}%
       \vspace{1in}%
-      {\Large Version 0.2}%
-      {\small \today}%
+      {\par\Large Version 0.2}%
+      {\par\small \today}%
     \end{flushright}%
   \end{titlepage}%
 }
