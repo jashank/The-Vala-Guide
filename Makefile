@@ -9,6 +9,7 @@ ADDITIONAL	= chapter01.tex chapter02.tex appendixA.tex
 BIBLIO		= no
 INDEX		= no
 FONTSPEC	= yes
+SHELLESCAPE	= yes
 
 COUNT		= no
 DIMENSIONS	= no
